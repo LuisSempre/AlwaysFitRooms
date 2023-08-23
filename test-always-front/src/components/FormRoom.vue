@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     fetchRooms() {
-      // Substitua esta URL pela URL da sua API de busca de salas
+    
       const apiUrl = 'http://localhost:3000/rooms';
       fetch(apiUrl)
         .then(response => response.json())
@@ -61,10 +61,10 @@ export default {
       };
 
       if (!this.checkReservationConflict(reservationData)) {
-        return; // Retorna se há conflitos
+        return;
       }
 
-      // Substitua esta URL pela URL da sua API de criação de reserva
+      
       const apiUrl = 'http://localhost:3000/reserve';
       fetch(apiUrl, {
         method: 'POST',
@@ -77,7 +77,7 @@ export default {
         .then(data => {
           alert(data.message);
           location.reload();
-          this.$emit('reservationMade'); // Emitir um evento para notificar a atualização das reservas
+          this.$emit('reservationMade');
           this.selectedRoom = null;
           this.selectedDate = null;
           this.selectedStartTime = null;
@@ -107,7 +107,7 @@ export default {
         }
       }
 
-      return true; // Não há conflitos
+      return true; 
     },
   },
 };

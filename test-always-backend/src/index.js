@@ -1,30 +1,45 @@
 const express = require('express');
 const moment = require('moment');
-const bodyParser = require('body-parser');
-const authRoutes = require('./authRoutes');
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
-app.use(bodyParser.json());
 
-app.use('/auth', authRoutes);
+app.use(cors());
+app.use(express.json());
 
-// Simulando um banco de dados de salas e reservas
+const users = [
+  { id: 1, username: 'user1', password: 'password1' },
+  { id: 2, username: 'user2', password: 'password2' }
+];
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  const user = users.find(u => u.username === username && u.password === password);
+  
+  if (user) {
+    res.json({ message: 'Login successful' });
+  } else {
+    res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
+
 const rooms = [
   { id: 1, name: 'Sala A', capacity: 10, reserved: [] },
   { id: 2, name: 'Sala B', capacity: 8, reserved: [] },
   // Adicione mais salas aqui
 ];
 
-// Middleware para processar o corpo das requisições como JSON
+
 app.use(express.json());
 
-// Endpoint para obter a lista de salas
+
 app.get('/rooms', (req, res) => {
   res.json(rooms);
 });
 
-// Endpoint para fazer uma reserva
+
 app.post('/reserve', (req, res) => {
   const { roomId, startDateTime, endDateTime } = req.body;
 
@@ -52,7 +67,7 @@ app.post('/reserve', (req, res) => {
   res.status(201).json({ message: 'Reserva feita com sucesso!' });
 });
 
-// Endpoint para listar reservas do usuário
+
 app.get('/reservations/:userId', (req, res) => {
   const userId = parseInt(req.params.userId);
   const userReservations = [];
