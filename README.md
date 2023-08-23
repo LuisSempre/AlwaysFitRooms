@@ -1,16 +1,18 @@
-# test-always-front
+# Test Always Fit
 
-This template should help get you started developing with Vue 3 in Vite.
+## Project Setup test-always-backend 
 
-## Recommended IDE Setup
+```sh
+npm install
+```
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### Compile and Hot-Reload for Development
 
-## Customize configuration
+```sh
+npm run dev
+```
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+## Project Setup test-always-front-end 
 
 ```sh
 npm install
