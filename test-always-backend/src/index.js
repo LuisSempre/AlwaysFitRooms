@@ -1,8 +1,13 @@
 const express = require('express');
 const moment = require('moment');
+const bodyParser = require('body-parser');
+const authRoutes = require('./authRoutes');
 
 const app = express();
 const port = 3000;
+app.use(bodyParser.json());
+
+app.use('/auth', authRoutes);
 
 // Simulando um banco de dados de salas e reservas
 const rooms = [
@@ -66,25 +71,18 @@ app.get('/reservations/:userId', (req, res) => {
   res.json(userReservations);
 });
 
-// Endpoint para cancelar uma reserva
-app.delete('/reservations/:userId/:reservationId', (req, res) => {
-  const userId = parseInt(req.params.userId);
+app.delete('/cancel/:reservationId', (req, res) => {
   const reservationId = parseInt(req.params.reservationId);
 
-  let reservationFound = false;
-  rooms.forEach(room => {
-    const index = room.reserved.findIndex(reservation => reservation.userId === userId && reservationId === reservation.id);
+  for (const room of rooms) {
+    const index = room.reserved.findIndex(reservation => reservation.id === reservationId);
     if (index !== -1) {
       room.reserved.splice(index, 1);
-      reservationFound = true;
+      return res.json({ message: 'Reserva cancelada com sucesso.' });
     }
-  });
-
-  if (reservationFound) {
-    res.json({ message: 'Reserva cancelada com sucesso.' });
-  } else {
-    res.status(404).json({ error: 'Reserva não encontrada.' });
   }
+
+  return res.status(404).json({ error: 'Reserva não encontrada.' });
 });
 
 app.listen(port, () => {
